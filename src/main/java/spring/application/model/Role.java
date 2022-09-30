@@ -58,17 +58,3 @@ public class Role implements GrantedAuthority {
         return Objects.hash(id, name);
     }
 }
-//<div class="col-sm-4">
-//<label for="email1" class="form-label">Email</label>
-//<input required type="text" th:field="*{email}" class="form-control" id="email1">
-//</div>
-//<div class="col-sm-4">
-//<label for="password1" class="form-label">Password</label>
-//<input required th:field="*{password}" type="password" class="form-control" id="password1">
-//</div>
-//<div class="col-12">
-//<input type="checkbox" th:each="role : ${roles}"
-//        th:field="*{roleSet}"
-//        th:value="${role.getId()}"
-//        th:text="${role.getName()}">
-//</div>

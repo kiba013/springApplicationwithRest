@@ -1,6 +1,6 @@
 package spring.application.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -9,19 +9,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import spring.application.handler.LoginSuccessHandler;
-import spring.application.service.UserDetService;
+import spring.application.service.UserServiceImp;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetService userDetService;
+    private final UserServiceImp userDetService;
 
     private final LoginSuccessHandler loginSuccessHandler;
 
 
-    public SecurityConfig(UserDetService userDetService, LoginSuccessHandler loginSuccessHandler) {
+    public SecurityConfig(UserServiceImp userDetService, LoginSuccessHandler loginSuccessHandler) {
         this.userDetService = userDetService;
         this.loginSuccessHandler = loginSuccessHandler;
     }
@@ -30,15 +31,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/home").hasAnyRole("USER", "ADMIN")
-                //.antMatchers("/registration").permitAll()
+                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/login").not().fullyAuthenticated()
                 .antMatchers("/").authenticated()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .successHandler(loginSuccessHandler)
+                .formLogin().loginPage("/login").successHandler(loginSuccessHandler)
                 .and()
-                .logout().logoutSuccessUrl("/login");
+                .logout().logoutSuccessUrl("/login")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
     }
 
     @Bean
