@@ -17,14 +17,15 @@ import spring.application.service.UserServiceImp;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserServiceImp userDetService;
+
+    private final UserServiceImp userService;
 
     private final LoginSuccessHandler loginSuccessHandler;
 
 
-    public SecurityConfig(UserServiceImp userDetService, LoginSuccessHandler loginSuccessHandler) {
-        this.userDetService = userDetService;
+    public SecurityConfig(LoginSuccessHandler loginSuccessHandler, UserServiceImp userService) {
         this.loginSuccessHandler = loginSuccessHandler;
+        this.userService = userService;
     }
 
     @Override
@@ -52,9 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
+    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetService);
+        authenticationProvider.setUserDetailsService(userService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
