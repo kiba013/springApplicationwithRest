@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import spring.application.model.Role;
 import spring.application.model.User;
+import spring.application.repository.RoleRepository;
 import spring.application.repository.UserRepository;
 
 import java.util.Collection;
@@ -27,9 +28,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImp( UserRepository userRepository,@Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+    private final RoleRepository roleRepository;
+
+    public UserServiceImp(UserRepository userRepository, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -47,44 +51,55 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public User getUserByName(String username) {
+
         return userRepository.findByUsername(username);
     }
 
     @Override
     public User saveUser(User user) throws Exception {
-        User username = userRepository.findByUsername(user.getUsername());
+        User username = userRepository.findByEmail(user.getEmail());
         if (username == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
-        throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Username already exists!");
+        throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "User E-mail already exists!");
     }
 
     @Override
-    public User updateUser(Long id, User user) {
-        User curUser = getUserById(id);
+    public User updateUser(User user) {
+        User curUser = getUserById(user.getId());
+        boolean b = user.getPassword().equals(curUser.getPassword());
+        if (!b) {
+            curUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         curUser.setUsername(user.getUsername());
         curUser.setAge(user.getAge());
         curUser.setEmail(user.getEmail());
-        curUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        curUser.setRoleSet(user.getRoleSet());
+        curUser.setRole(user.getRole());
         return userRepository.save(curUser);
+
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public Long deleteUser(Long id) {
+       userRepository.deleteById(id);
+        return id;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                mapRolesToAuthorities(user.getRoleSet()));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                mapRolesToAuthorities(user.getRole()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

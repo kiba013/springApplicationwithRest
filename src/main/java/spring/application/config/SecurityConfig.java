@@ -37,10 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").authenticated()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").successHandler(loginSuccessHandler)
+                .formLogin().loginPage("/login").usernameParameter("email")
+                .successHandler(loginSuccessHandler)
                 .and()
                 .logout().logoutSuccessUrl("/login")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
+        http.csrf().disable();
     }
 
     @Bean

@@ -6,4 +6,5 @@ import spring.application.model.Role;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
+    Role findRoleByName(String name);
 }

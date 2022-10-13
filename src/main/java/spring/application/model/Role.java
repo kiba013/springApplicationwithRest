@@ -2,11 +2,9 @@ package spring.application.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -18,6 +16,15 @@ public class Role implements GrantedAuthority {
 
     private String name;
 
+    @ManyToMany(mappedBy = "role")
+    private Set<User> users;
+
+    public Role() {
+    }
+
+    public Role(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
