@@ -1,4 +1,4 @@
-package spring.application.controller.restController;
+package spring.application.controller.rest_controller;
 
 
 import org.springframework.http.HttpStatus;
@@ -13,34 +13,34 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-public class rootRestController {
+public class adminRestController {
 
     private final UserService userService;
     private final RoleRepository roleRepository;
 
-    public rootRestController(UserService userService, RoleRepository roleRepository) {
+    public adminRestController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
     }
 
     @GetMapping("/admin/api/users")
-    public List<User> getAllUser() {
-        return userService.getAllUser();
+    public ResponseEntity  getAllUser() {
+        return ResponseEntity.ok(userService.getAllUser());
     }
 
     @PostMapping("/admin/api/users")
-    public User createNewUser(@RequestBody User user) throws Exception {
-        return userService.saveUser(user);
+    public ResponseEntity<User> createNewUser(@RequestBody User user) throws Exception {
+        return new ResponseEntity<>((userService.saveUser(user)), HttpStatus.OK);
     }
 
     @GetMapping("/roles")
-    public List<Role> getAllRoles() {
-        return (List<Role>) roleRepository.findAll();
+    public ResponseEntity getAllRoles() {
+        return ResponseEntity.ok((List<Role>) roleRepository.findAll());
     }
 
     @GetMapping("/admin/api/users/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
 

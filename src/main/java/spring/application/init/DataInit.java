@@ -1,4 +1,4 @@
-package spring.application.loader;
+package spring.application.init;
 
 import org.springframework.stereotype.Component;
 import spring.application.model.Role;
@@ -11,13 +11,13 @@ import javax.annotation.PreDestroy;
 import java.util.Collections;
 
 @Component
-public class Dataloader {
+public class DataInit {
 
     private final UserService userService;
 
     private final RoleRepository roleRepository;
 
-    public Dataloader(UserService userService, RoleRepository roleRepository) {
+    public DataInit(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
     }
