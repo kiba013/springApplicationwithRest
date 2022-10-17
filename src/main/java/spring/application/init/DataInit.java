@@ -25,12 +25,8 @@ public class DataInit {
 
     @PostConstruct
     public void loadData() throws Exception {
-        userService.saveUser(
-                new User("admin", "admin",
-                        "admin@admin.com", 1, Collections.singleton(roleRepository.save(new Role("ROLE_ADMIN")))));
-        userService.saveUser(
-                new User("user", "user",
-                        "user@user.com", 1, Collections.singleton(roleRepository.save(new Role("ROLE_USER")))));
+        userService.saveUser(new User("admin", "admin", "admin@admin.com", 1, Collections.singleton(roleRepository.save(new Role("ROLE_ADMIN")))));
+        userService.saveUser(new User("user", "user", "user@user.com", 1, Collections.singleton(roleRepository.save(new Role("ROLE_USER")))));
     }
     @PreDestroy
     public void removeData() {
@@ -38,5 +34,4 @@ public class DataInit {
         userService.deleteUser(userService.findByEmail("admin@admin.com").getId());
         userService.deleteUser(userService.findByEmail("user@user.com").getId());
     }
-
 }

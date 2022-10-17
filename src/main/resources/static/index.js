@@ -196,19 +196,3 @@ document.getElementById("updateBtn").addEventListener('click', async (e) =>{
     await updateUser();
 });
 
-// async function getRoleForOneUser() {
-//     await fetch("/roles")
-//         .then((res) => res.json())
-//         .then((response) => {
-//             let check = "";
-//             response.forEach((role) => {
-//                 check +="<button class='dropdown-item' type='button'>"
-//                 check +="<input  id='" + role.id + "' value='" + role.id + "' type='checkbox' required>"
-//                 check +="<label for='" + role.id + "'>" + role.name + "</label>"
-//                 check +="</button>"
-//             })
-//             document.getElementById("updateRole").innerHTML = check;
-//         })
-// }
-// getRoleForOneUser();
-

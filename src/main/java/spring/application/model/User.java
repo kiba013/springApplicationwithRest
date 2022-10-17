@@ -1,7 +1,6 @@
 package spring.application.model;
 
 
-
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -81,6 +80,7 @@ public class User {
     public void setRole(Set<Role> role) {
         this.role = role;
     }
+
     public String getRoleSet() {
         return role.toString().replaceAll("(^\\[|\\]$)", "").replace("ROLE_", "");
     }

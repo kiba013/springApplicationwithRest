@@ -13,18 +13,18 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-public class adminRestController {
+public class AdminRestController {
 
     private final UserService userService;
     private final RoleRepository roleRepository;
 
-    public adminRestController(UserService userService, RoleRepository roleRepository) {
+    public AdminRestController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
     }
 
     @GetMapping("/admin/api/users")
-    public ResponseEntity  getAllUser() {
+    public ResponseEntity getAllUser() {
         return ResponseEntity.ok(userService.getAllUser());
     }
 
@@ -56,7 +56,7 @@ public class adminRestController {
     @PutMapping("/admin/api/users")
     public ResponseEntity updateUser(@RequestBody User user) {
         try {
-            return  ResponseEntity.ok(userService.updateUser(user));
+            return ResponseEntity.ok(userService.updateUser(user));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Something went wrong!");
         }

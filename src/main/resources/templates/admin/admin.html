@@ -15,13 +15,14 @@
       <div class="d-flex">
         <div sec:authorize="hasRole('ADMIN')" class="col-sm-1 d-flex flex-column flex-shrink-0">
           <ul class="nav nav-pills flex-column mb-auto" >
-            <li><button th:href="@{/admin}" class="w-100 btn btn-info text-start">Admin</button></li>
+            <li><button th:href="@{/admin}" class="w-100 btn btn-primary text-start">Admin</button></li>
             <li><button id="myAnchor" class="w-100 btn route text-start">User</button></li>
           </ul>
         </div>
-<div class="d-flex flex-column col-sm-11">
+<div class="d-flex flex-column col-sm-11 px-2">
+  <h3>Admin Panel</h3>
   <div class="pt-0">
-    <ul class="nav nav-pills nav-tabs-bordered" id="pills-tab" role="tablist">
+    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="pills-home-tab"
                 data-bs-toggle="pill" data-bs-target="#pills-home"
@@ -54,7 +55,7 @@
         </table>
   </div>
     <!-- Modal -->
-    <div class="modal fade editUser" id="myModal"
+    <div class="modal editUser" id="myModal"
          tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -88,7 +89,8 @@
                 </div>
               </div>
               <div class="modal-footer justify-content-center">
-                <input id="updateBtn" class="mt-3 w-50 btn btn-primary btn-lg" type="submit" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                <input id="updateBtn" class="btn btn-primary" type="submit" data-bs-dismiss="modal" aria-label="Close">
               </div>
               </div>
             </form>
@@ -99,7 +101,7 @@
     </div>
 
     <!--Modal for delete -->
-    <div class="modal fade editUser" id="modalDelete"
+    <div class="modal editUser" id="modalDelete"
          tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -192,9 +194,7 @@
 </script>
 <style>
   .modal {
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.1);
-  }
+    background-color: rgba(0,0,0,0) !important;
   }
 </style>
 </body>

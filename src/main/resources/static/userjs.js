@@ -15,7 +15,5 @@ async function userById() {
                             document.getElementById("user").innerHTML = data;
                         });
 }
-
-
 userById();
 

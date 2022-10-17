@@ -3,7 +3,6 @@ package spring.application.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import spring.application.repository.RoleRepository;
 import spring.application.service.UserService;
 
